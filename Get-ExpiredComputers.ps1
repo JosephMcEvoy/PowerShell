@@ -121,4 +121,3 @@ function Get-ExpiredComputers {
         Write-Output $obj
     }
 }
-Get-ExpiredComputers -Day 30 -Ping -SearchBase "OU=Windows 10 Workstations,DC=law,DC=firm"
