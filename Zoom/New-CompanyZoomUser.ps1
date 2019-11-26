@@ -1,11 +1,14 @@
 <#
 .SYNOPSIS
 Create a user using an AD account.
+.DESCRIPTION
+Leverages PSZoom to create a Zoom account from an AD account. This is an example script. Some customization required.
 .PARAMETER ADAccount
 The active directory account. The information from AD will be used to generate a new Zoom user.
 .PARAMETER Action
 Specify how to create the new user:
-create - User will get an email sent from Zoom. There is a confirmation link in this email. The user will then need to use the link to activate their Zoom account. 
+create - User will get an email sent from Zoom. There is a confirmation link in this email. The user will then 
+need to use the link to activate their Zoom account. 
 The user can then set or change their password.
 autoCreate - This action is provided for the enterprise customer who has a managed domain. This feature is 
 disabled by default because of the security risk involved in creating a user who does not belong to your domain.
@@ -28,7 +31,8 @@ User's last name: cannot contain more than 5 Chinese words.
 .PARAMETER PASSWORD
 User password. Only used for the "autoCreate" function. The password has to have a minimum of 8 characters and maximum of 32 characters. 
 It must have at least one letter (a, b, c..), at least one number (1, 2, 3...) and include both uppercase and lowercase letters. 
-It should not contain only one identical character repeatedly ('11111111' or 'aaaaaaaa') and it cannot contain consecutive characters ('12345678' or 'abcdefgh').
+It should not contain only one identical character repeatedly ('11111111' or 'aaaaaaaa') and it cannot contain consecutive 
+characters ('12345678' or 'abcdefgh').
 .OUTPUTS
 An object with the Zoom API response. 
 .PARAMETER Pmi
