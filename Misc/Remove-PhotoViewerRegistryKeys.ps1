@@ -2,11 +2,11 @@ function Remove-PhotoViewerRegistryKeys {
     param()
 
     process {
-        New-PSDrive -Name "HKR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Write-Verbose
+        New-PSDrive -Name "HKR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT"
         $RegPath = "HKR:\Applications\photoviewer.dll"
 
         if (test-path $RegPath) {
-                Remove-Item $RegPath -Recurse -Force | Write-Verbose
+                Remove-Item $RegPath -Recurse -Force
         }
 
 
