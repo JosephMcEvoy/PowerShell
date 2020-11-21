@@ -1,4 +1,4 @@
-function Disable-PhotoViewer {
+function Remove-PhotoViewerRegistryKeys {
     param()
 
     process {
@@ -15,4 +15,4 @@ function Disable-PhotoViewer {
     }
 }
 
-Disable-PhotoViewer
+Remove-PhotoViewerRegistryKeys
