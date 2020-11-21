@@ -2,7 +2,7 @@ function Add-PhotoViewerRegistryKeys {
     param()
 
     process {
-        New-PSDrive -Name "HKR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" | Write-Verbose
+        New-PSDrive -Name "HKR" -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" 
         $RegPath = "HKR:\Applications\photoviewer.dll"
         
         #Create registry keys
@@ -10,7 +10,7 @@ function Add-PhotoViewerRegistryKeys {
         
         $keys | ForEach-Object {
             if (-not (test-path $_)) {
-                New-Item $_ | Write-Verbose
+                New-Item $_ 
             }
         }
         
@@ -54,10 +54,10 @@ function Add-PhotoViewerRegistryKeys {
         
         foreach ($parameter in $params) { 
             if (-not (get-itemproperty -path $parameter.path -name $parameter.name -ErrorAction SilentlyContinue)."$($parameter.name)") {
-                New-ItemProperty @parameter | Write-Verbose
+                New-ItemProperty @parameter 
             } else {
-                Remove-ItemProperty -path $parameter.path -name $parameter.name | Write-Verbose
-                New-ItemProperty @parameter | Write-Verbose
+                Remove-ItemProperty -path $parameter.path -name $parameter.name 
+                New-ItemProperty @parameter 
             }
         }
         
@@ -67,3 +67,5 @@ function Add-PhotoViewerRegistryKeys {
 }
 
 Add-PhotoViewerRegistryKeys
+
+
