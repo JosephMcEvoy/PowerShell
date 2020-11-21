@@ -1,4 +1,4 @@
-function Enable-PhotoViewer {
+function Add-PhotoViewerRegistryKeys {
     param()
 
     process {
@@ -66,4 +66,4 @@ function Enable-PhotoViewer {
     }
 }
 
-Enable-PhotoViewer
+Add-PhotoViewerRegistryKeys
