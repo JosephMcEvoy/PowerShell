@@ -1,3 +1,6 @@
+#Set-Wallpaper courtesy of Jose Espisita: https://www.joseespitia.com/2017/09/15/set-wallpaper-powershell-function/,
+#with some modifications.
+
 function Set-WallPaper {
  
 <#
@@ -18,8 +21,8 @@ function Set-WallPaper {
 #>
  
 param (
-    [parameter(Mandatory=$True, ValueFromPipeline = $True)]
     # Provide path to image
+    [parameter(Mandatory=$True, ValueFromPipeline = $True)]
     [string]$Image,
     # Provide wallpaper style that you would like applied
     [parameter(Mandatory=$False)]
