@@ -21,8 +21,8 @@ function Set-WallPaper {
 #>
  
 param (
-    # Provide path to image
     [parameter(Mandatory=$True, ValueFromPipeline = $True)]
+    # Provide path to image
     [string]$Image,
     # Provide wallpaper style that you would like applied
     [parameter(Mandatory=$False)]
@@ -80,7 +80,7 @@ public class Params
 
 function Get-Wallpaper {
     param (
-        [string]$Resolution = "2560x1440",
+        [string]$Resolution,
 
         [string]$Url = "https://source.unsplash.com/random",
 
@@ -94,4 +94,4 @@ function Get-Wallpaper {
     Write-Output "$Path\$Filename"
 }
 
-Get-Wallpaper | Set-WallPaper | Remove-Item
+Get-Wallpaper -Resolution '2560x1440' | Set-WallPaper | Remove-Item
