@@ -80,10 +80,11 @@ public class Params
 
 function Get-Wallpaper {
     param (
-        [string]$Resolution,
-
         [string]$Url = "https://source.unsplash.com/random",
-
+        
+        #Appends the URL, can leave blank.
+        [string]$Resolution,
+        
         [string]$Path = "$home\Pictures\",
 
         [string]$Filename = "$([System.Math]::Truncate((Get-Date -Date ((Get-Date).ToUniversalTime()) -UFormat %s))).jpg"
