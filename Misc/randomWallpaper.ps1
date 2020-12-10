@@ -86,7 +86,7 @@ function Get-Wallpaper {
 
         [string]$Path = "$home\Pictures\",
 
-        [string]$Filename = "$([System.Math]::Truncate((Get-Date -Date ((Get-Date).ToUniversalTime()) -UFormat %s))).jpg"
+        [string]$Filename = "(Get-Date -Format FileDateTime).jpg"
     )
 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
