@@ -1,0 +1,67 @@
+<#
+  .SYNOPSIS
+  Cleans up an OU of old computers.
+
+  .Description
+  Cleans an OU recursively of old computers.
+#>
+
+$Days = 90 #How long a computer has not contacted AD
+$SearchBase = "OU=Workstations,DC=our,DC=firm" #The base OU to clean up. This is recursive.
+$TargetPath = "OU=Disabled Computers,DC=our,DC=firm" #The OU where the computers will be moved
+$DateStampForLogging = (Get-Date -Format FileDateTime) #Date stamp. Used for log file name.
+$ScriptName = ($MyInvocation.MyCommand.Name).split('.')[0] #The name of this file. Used for log file name.
+$LogFolder = "$($ScriptName)_Logs"
+$LogFilePath = ".\$LogFolder\$($ScriptName)_$($DateStampForLogging).log"
+$DateTime = ((Get-Date).addDays(-$Days))
+$credential = Get-Credential firm\username #Service account or Domain Admin credentials, will need to set this properly to automate
+
+#Filter out these OUs from the collection
+$OUFilters = @(
+    'OU=ITMachines,OU=Workstations,DC=our,DC=firm',
+    'OU=VIPMachines,OU=Workstations,DC=our,DC=firm',
+)
+
+#Check if $TargetPath exists
+if (-not (Get-ADOrganizationalUnit $TargetPath)) {
+    throw "$TargetPath doesn't exist. The OU needs to be created first."
+}
+
+#Create $LogFolder if necessary
+if (-not (Test-Path ".\$LogFolder")) {
+    New-Item -Path $LogFolder -ItemType 'directory' -Verbose
+}
+
+#Get stale computers from $Days ago from $SearchBase OU recursively.
+[System.Collections.ArrayList]$staleComputers = (Search-ADAccount -SearchBase $SearchBase -SearchScope Subtree -AccountInactive -DateTime $DateTime -ComputersOnly)
+
+
+<#
+Filter out OUs from $OUFilters
+(($_.DistinguishedName).substring($_.DistinguishedName.indexOf(',') + 1)) looks confusing but all it is
+doing is removing the 'CN=LOC-COMPUTERNAME' part of the DistinguishedName.
+#>
+foreach ($OU in $OUFilters) {
+    $staleComputers = $staleComputers | Where-Object {(($_.DistinguishedName).substring($_.DistinguishedName.indexOf(',') + 1)) -ne "$OU"}
+}
+
+#Get and Add online status to each object
+$staleComputers | foreach-object {
+    if (Test-Connection -ComputerName $_.name -Count 1 -ErrorAction SilentlyContinue){
+        $_ | Add-Member -NotePropertyName 'Online' -NotePropertyValue $True -Force
+    } else {
+        $_ | Add-Member -NotePropertyName 'Online' -NotePropertyValue $False -Force
+    }
+}
+
+#Write stale computer(s) to a log file.
+$staleComputers | Export-Csv ".\$LogFolder\$($ScriptName)_$DateStampForLogging.csv"
+
+#Filter out object(s) that aren't online
+$offlineComputers = $staleComputers | Where-Object Online -eq $False
+
+#Disable stale and offline computer(s) and log results
+$offlineComputers | Disable-ADAccount -Credential $credential -Verbose -Whatif *>> $LogFilePath
+
+#Move stale and offline computer(s) and log results
+$offlineComputers | Move-ADObject -TargetPath $TargetPath -Credential $credential -Verbose -Whatif *>> $LogFilePath
