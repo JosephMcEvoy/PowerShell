@@ -1,0 +1,27 @@
+#This script is used to manage floor AD groups.
+
+#CSV should have the following properties: FirstName, LastName, NewOffice
+$Users = Import-Csv $PSScriptRoot\Users.csv
+$Floors = 12,13,14,15,16,17
+
+$Members = New-Object System.Collections.Generic.List[string]
+
+
+#Get users based on first and last name. Names with apostrophees do not work. Check for errors.
+#Names that are duplicate may not work.
+foreach ($user in $Users) {
+    $members += Get-ADUser -Filter "GivenName -like '$($user.FirstName)*' -and Surname -like '$($user.LastName)*'"
+}
+
+#Remove users on list from all floor groups
+foreach ($floor in $Floors) {
+        Remove-ADGroupMember -Identity "Floor $floor" -Members $Members
+}
+
+#Add users to respective floor based on NewOffice value
+foreach ($floor in $Floors) {
+    $NewMembers = $Members | Where-Object {$_.NewOffice -like "$floor*"}
+    if ($NewMembers.count -gt 0 ) {
+        Add-ADGroupMember -Members $NewMembers -Identity "Floor $floor"
+    }
+}
