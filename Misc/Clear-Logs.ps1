@@ -11,7 +11,7 @@
 
 #>
 
-function Remove-OldFiles {
+function Clear-Logs {
     param (
         [Parameter(Mandatory = $True, Position = 0)]
         [string]$Path,
