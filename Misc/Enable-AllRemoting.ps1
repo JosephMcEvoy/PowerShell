@@ -8,8 +8,8 @@ Foreach ($interface in $connectedInterfaces) {
 Enable-PSRemoting
 Enable-NetFirewallRule -Name FPS-ICMP4-ERQ-In #enable pinging ipv4
 Enable-NetFirewallRule -Name FPS-ICMP6-ERQ-In #enable pinging ipv6
-Set-ItemProperty ‘HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\‘ -Name “fDenyTSConnections” -Value 0 #enable Remote Desktop connections
-Enable-NetFirewallRule -DisplayGroup “Remote Desktop” #add firewall rule for Remote Desktop
+Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\" -Name "fDenyTSConnections" -Value 0 #enable Remote Desktop connections
+Enable-NetFirewallRule -DisplayGroup "Remote Desktop" #add firewall rule for Remote Desktop
 
 #Enables Powershell Remoting via IP (As opposed to host name)
 $DNSServer = "10.100.18.11"
