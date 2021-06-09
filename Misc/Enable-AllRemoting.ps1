@@ -12,7 +12,7 @@ Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\" -Name
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop" #add firewall rule for Remote Desktop
 
 #Enables Powershell Remoting via IP (As opposed to host name)
-$DNSServer = "10.100.18.11"
+$DNSServer = ""
 New-NetFirewallRule -DisplayName “Windows Remote Management (HTTPS-In)” -Name “Windows Remote Management (HTTPS-In)” -Profile Any -LocalPort 5986 -Protocol TCP
 New-NetFirewallRule -DisplayName “RemotePowerShell” -Direction Inbound –LocalPort 5985-5986 -Protocol TCP -Action Allow
 New-SelfSignedCertificate -DnsName $DNSServer -CertStoreLocation Cert:\LocalMachine\My
