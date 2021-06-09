@@ -1,5 +1,5 @@
 ﻿#Set active connections to Private
-$connectedInterfaces = Get-Netconnectionprofile | where-object {$_.Name -eq "law.firm"} | where-object {$_.NetworkCategory -eq "Public"}
+$connectedInterfaces = Get-Netconnectionprofile | where-object {$_.NetworkCategory -eq "Public"}
 Foreach ($interface in $connectedInterfaces) {
     Set-NetConnectionProfile -InterfaceIndex $interface.interfaceindex -networkcategory Private
 }
