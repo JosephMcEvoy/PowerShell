@@ -5,8 +5,8 @@
 
 function Connect-SCCM {
     param (
-        [string]$SiteCode = 'Define company SiteCode (e.g. DB1)',
-        [string]$SiteServer = 'Define Company FQDN of SCCM Server here (e.g. sccmserver01.star.wars)',
+        [string]$SiteCode# = 'Define company SiteCode (e.g. DB1)',
+        [string]$SiteServer# = 'Define Company FQDN of SCCM Server here (e.g. sccmserver01.star.wars)',
         [string]$Description = 'Primary site',
         [System.Management.Automation.Credential()]$Credential = [System.Management.Automation.PSCredential]::Empty,
         $ModuleLocation = "${Env:ProgramFiles(x86)}\Microsoft Configuration Manager\AdminConsole\bin\ConfigurationManager\ConfigurationManager.psd1"
