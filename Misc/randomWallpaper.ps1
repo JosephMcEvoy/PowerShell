@@ -89,6 +89,13 @@ function Get-Image {
 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     Invoke-WebRequest "$Url" -OutFile $Path\$Filename
+    
+    try {
+        Test-Path $Path
+    } catch {
+        throw $_
+    }
+
     Write-Output "$Path\$Filename"
 }
 
