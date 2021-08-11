@@ -82,7 +82,7 @@ function Get-Image {
     param (
         [string]$Url = "https://source.unsplash.com/random/1920x1080/",
 
-        [string]$Path = "$home\Pictures\",
+        [string]$Path = "$PSScriptRoot",
 
         [string]$Filename = "$(Get-Date -Format FileDateTime).jpg"
     )
