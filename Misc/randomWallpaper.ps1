@@ -78,23 +78,21 @@ public class Params
     Write-Output $Image
 }
 
-function Get-Wallpaper {
+function Get-Image {
     param (
-        [string]$Resolution,
-
-        [string]$Url = "https://source.unsplash.com/random",
+        [string]$Url = "https://source.unsplash.com/random/1920x1080/",
 
         [string]$Path = "$home\Pictures\",
 
-        [string]$Filename = "(Get-Date -Format FileDateTime).jpg"
+        [string]$Filename = "$(Get-Date -Format FileDateTime).jpg"
     )
 
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    Invoke-WebRequest "$Url/$Resolution" -OutFile $Path\$Filename
+    Invoke-WebRequest "$Url" -OutFile $Path\$Filename
     Write-Output "$Path\$Filename"
 }
 
 #If a net adapter is online
 if (Get-NetRoute | Where-Object DestinationPrefix -eq '0.0.0.0/0' | Get-NetIPInterface | Where-Object ConnectionState -eq 'Connected') {
-    Get-Wallpaper -Resolution '2560x1440' | Set-WallPaper | Remove-Item
+    Get-Image | Set-WallPaper | Remove-Item
 }
