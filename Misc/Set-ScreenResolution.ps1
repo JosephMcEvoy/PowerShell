@@ -1,11 +1,25 @@
 <#
+
+.PARAMETER Width
+The screen width.
+
+.PARAMETER Height
+The screen height.
+
+.PARAMETER Frequency
+The screen frequency.
+
 .EXAMPLE
-Set-ScreenResolution -Width 1920 -Height 1080 -Freq 60
+Set-ScreenResolution -Width 1920 -Height 1080 -Frequency 60
+
+.EXAMPLE
+Set-ScreenResolution 1920 1080 60
+
 #>
 
 Function Set-ScreenResolution { 
  
-<# 
+    <# 
     .Synopsis 
         Sets the Screen Resolution of the primary monitor 
     .Description 
@@ -13,24 +27,24 @@ Function Set-ScreenResolution {
     .Example 
         Set-ScreenResolution -Width 1024 -Height 768    -Freq 60         
     #> 
-param ( 
-[Parameter(Mandatory=$true, 
-           Position = 0)] 
-[int] 
-$Width, 
+    param ( 
+        [Parameter(Mandatory = $true, 
+            Position = 0)] 
+        [int] 
+        $Width, 
  
-[Parameter(Mandatory=$true, 
-           Position = 1)] 
-[int] 
-$Height, 
+        [Parameter(Mandatory = $true, 
+            Position = 1)] 
+        [int] 
+        $Height, 
  
-[Parameter(Mandatory=$true, 
-           Position = 2)] 
-[int] 
-$Freq
-) 
+        [Parameter(Mandatory = $true, 
+            Position = 2)] 
+        [int] 
+        $Frequency
+    ) 
  
-$pinvokeCode = @" 
+    $pinvokeCode = @" 
  
 using System; 
 using System.Runtime.InteropServices; 
@@ -165,6 +179,6 @@ namespace Resolution
  
 "@ 
  
-Add-Type $pinvokeCode -ErrorAction SilentlyContinue 
-[Resolution.PrmaryScreenResolution]::ChangeResolution($width,$height,$freq) 
+    Add-Type $pinvokeCode -ErrorAction SilentlyContinue 
+    [Resolution.PrmaryScreenResolution]::ChangeResolution($width, $height, $Frequency) 
 } 
