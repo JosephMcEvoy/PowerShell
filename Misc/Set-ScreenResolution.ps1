@@ -1,3 +1,8 @@
+<#
+.EXAMPLE
+Set-ScreenResolution -Width 1920 -Height 1080 -Freq 60
+#>
+
 Function Set-ScreenResolution { 
  
 <# 
@@ -163,5 +168,3 @@ namespace Resolution
 Add-Type $pinvokeCode -ErrorAction SilentlyContinue 
 [Resolution.PrmaryScreenResolution]::ChangeResolution($width,$height,$freq) 
 } 
- 
-Set-ScreenResolution -Width 1920 -Height 1080 -Freq 60
