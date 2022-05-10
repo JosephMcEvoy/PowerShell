@@ -1,13 +1,16 @@
 <#
+
 .DESCRIPTION
-Creates three groups and assigns one or more given applications to each group with three intentions: Requires, Uninstall, and Available.
+Creates three groups for one or more given applications. 
+Creates three assignments for the application(s) to the respective group and intent.
+
 #>
 
 #requires -Modules 'Az.Resources','Microsoft.Graph.Intune'
 
 $prefix = "App-"
 $groupDescription = "Automatically generated software deployment group."
-$mobileApps = Get-IntuneMobileApp | ? displayname -like "*some app*"
+$mobileApps = Get-IntuneMobileApp
 
 foreach ($mobileApp in $mobileApps) {
     $appName = $mobileApp.groupName.Replace(' ', '_') # Change this if desired.
