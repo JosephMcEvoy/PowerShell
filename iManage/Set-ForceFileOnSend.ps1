@@ -5,14 +5,20 @@ Quick and dirty setting a value in imEMM.config in the current user's app data f
 
 function Set-ForceFileOnSend {
     param (
-        $value = 0
+        $Value = 0
     )
 
     try {
         $path = "C:\Users\$env:UserName\AppData\Roaming\iManage\Work\Configs\imEMM.config"
         $content = Get-Content $path
+    } catch {
+        $ErrorMessage = $_.Exception.Message
+        Write-Warning $ErrorMessage
+        Exit 1
+    }
 
-        if ($value -eq 0) {
+    try {
+        if ($Value -eq 0) {
             $content = $content.replace('"ForceFileOnSend":1','"ForceFileOnSend":0')
         } else {
             $content = $content.replace('"ForceFileOnSend":0','"ForceFileOnSend":1')
