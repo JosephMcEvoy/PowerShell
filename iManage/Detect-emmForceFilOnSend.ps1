@@ -1,25 +1,28 @@
 function Get-imEMMConfig {
     $path = "C:\Users\$env:UserName\AppData\Roaming\iManage\Work\Configs\imEMM.config"
     try {
-            if (test-path $path) {
-        $Config = (Get-Content $path -Raw)
+        if (test-path $path) {
+            $Config = (Get-Content $path -Raw)
 
-        $Output = @{
-            path   = $path
-            config = $config | ConvertFrom-Json
+            $Output = @{
+                path   = $path
+                config = $config | ConvertFrom-Json
+            }
+
+            Write-Output $output
         }
-
-        Write-Output $output
-    } catch {
+    }
+    catch {
         Write-Error -Message "$($_.Exception.Message)" -ErrorId $_.Exception.Code -Category InvalidOperati
-    Write-Output $Output
+        Write-Output $Output
+    }
 }
 
 try {
     $value = 0
     $path = "C:\Users\$env:UserName\AppData\Roaming\iManage\Work\Configs\imEMM.config"
 
-    if ((Test-Path $path) -eq $False){
+    if ((Test-Path $path) -eq $False) {
         "The file imEMM.config was not found."
         Exit 0
     }
@@ -28,13 +31,15 @@ try {
     $ForceFileOnSendValue = $imEMMConfig.config.emm_config.ForceFileOnSend
 
     if ($ForceFileOnSendValue -ne $value) {
-        Write-Verbose "ForceFileOnSend not set to $value."
+        Write-host "ForceFileOnSend not set to $value."
         Exit 1
-    } else { 
-        Write-Verbose "ForceFileOnSend set to $value."
+    }
+    else { 
+        Write-host "ForceFileOnSend set to $value."
         Exit 0
     }
-} catch {
+}
+catch {
     $ErrorMessage = $_.Exception.Message 
     Write-Warning $ErrorMessage
     Exit 1
